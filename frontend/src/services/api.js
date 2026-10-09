@@ -1,56 +1,61 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://insightful-customerfeedback.onrender.com';
-const API_URL = `${BASE_URL}/api/feedback`;
-const ACTION_ITEMS_URL = `${BASE_URL}/api/action-items`;
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'https://insightful-customerfeedback.onrender.com').replace(/\/$/, "");
+
+const apiClient = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
 export const api = {
     ingestFeedback: async (feedbacks) => {
-        return axios.post(`${API_URL}/ingest`, { feedbacks });
+        return apiClient.post('/api/feedback/ingest', { feedbacks });
     },
     searchFeedback: async (query) => {
-        return axios.post(`${API_URL}/search`, { query });
+        return apiClient.post('/api/feedback/search', { query });
     },
     getThemes: async () => {
-        return axios.get(`${API_URL}/themes`);
+        return apiClient.get('/api/feedback/themes');
     },
     getFeedbackStats: async () => {
-        return axios.get(`${API_URL}/stats`);
+        return apiClient.get('/api/feedback/stats');
     },
     getRecentFeedback: async () => {
-        return axios.get(`${API_URL}/`);
+        return apiClient.get('/api/feedback/');
     },
     clearFeedback: async () => {
-        return axios.delete(`${API_URL}/clear`);
+        return apiClient.delete('/api/feedback/clear');
     },
     generateActionItem: async (feedbackText) => {
-        return axios.post(`${API_URL}/action-item`, { feedbackText });
+        return apiClient.post('/api/feedback/action-item', { feedbackText });
     },
     deleteFeedback: async (id) => {
-        return axios.delete(`${API_URL}/${id}`);
+        return apiClient.delete(`/api/feedback/${id}`);
     },
     competitiveAnalysis: async (ourFeedback, competitorFeedback) => {
-        return axios.post(`${API_URL}/competitive-analysis`, { ourFeedback, competitorFeedback });
+        return apiClient.post('/api/feedback/competitive-analysis', { ourFeedback, competitorFeedback });
     },
     // Action Items
     createActionItem: async (data) => {
-        return axios.post(ACTION_ITEMS_URL, data);
+        return apiClient.post('/api/action-items', data);
     },
     getAllActionItems: async () => {
-        return axios.get(ACTION_ITEMS_URL);
+        return apiClient.get('/api/action-items');
     },
     updateActionItemStatus: async (id, status) => {
-        return axios.patch(`${ACTION_ITEMS_URL}/${id}`, { status });
+        return apiClient.patch(`/api/action-items/${id}`, { status });
     },
     updateActionItemTeam: async (id, teamName) => {
-        return axios.patch(`${ACTION_ITEMS_URL}/${id}`, { teamName });
+        return apiClient.patch(`/api/action-items/${id}`, { teamName });
     },
     deleteActionItem: async (id) => {
-        return axios.delete(`${ACTION_ITEMS_URL}/${id}`);
+        return apiClient.delete(`/api/action-items/${id}`);
     },
     // Submit feedback form
     submitFeedbackForm: async (feedbackType, description, implementedFeature, productName) => {
-        return axios.post(`${ACTION_ITEMS_URL}/from-submission`, {
+        return apiClient.post('/api/action-items/from-submission', {
             feedbackType,
             description,
             implementedFeature,
@@ -59,25 +64,26 @@ export const api = {
     },
     // Generate implementation plan
     generateImplementationPlan: async (feedbackType, description) => {
-        return axios.post(`${ACTION_ITEMS_URL}/generate-implementation-plan`, {
+        return apiClient.post('/api/action-items/generate-implementation-plan', {
             feedbackType,
             description
         });
     },
     // Analyze product feedback
     analyzeProduct: async (feedbackText) => {
-        return axios.post(`${API_URL}/analyze-product`, { feedbackText });
+        return apiClient.post('/api/feedback/analyze-product', { feedbackText });
     },
     analyzeAllFeedback: async () => {
-        return axios.get(`${API_URL}/analyze-all`);
+        return apiClient.get('/api/feedback/analyze-all');
     },
     getCommonComplaints: async () => {
-        return axios.get(`${API_URL}/common-complaints`);
+        return apiClient.get('/api/feedback/common-complaints');
     },
     getTrendAnalysis: async (productName, days) => {
         const params = {};
         if (productName) params.productName = productName;
         if (days) params.days = days;
-        return axios.get(`${API_URL}/trends`, { params });
+        return apiClient.get('/api/feedback/trends', { params });
     }
 };
+

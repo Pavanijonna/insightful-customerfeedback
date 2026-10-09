@@ -7,9 +7,9 @@ async function listModels() {
         // There is no direct listModels on genAI instance in some versions, 
         // but let's try a simple generation with a known safe model 'gemini-pro'
         // Actually, newer SDKs might not expose listModels easily without full OAuth?
-        // Let's just try to hit 'gemini-1.5-flash' and 'gemini-pro' and see which one errors.
+        // Let's test available models including 'gemini-2.0-flash' and see which one errors.
 
-        const models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro', 'gemini-1.0-pro'];
+        const models = [process.env.GEMINI_MODEL || 'gemini-3.6-flash', 'gemini-flash-latest', 'gemini-flash'];
 
         for (const m of models) {
             console.log(`Testing model: ${m}...`);

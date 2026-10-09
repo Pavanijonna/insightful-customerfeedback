@@ -11,7 +11,7 @@ function log(msg) {
 async function check() {
     fs.writeFileSync(logFile, "Starting Check...\n");
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: process.env.GEMINI_MODEL || "gemini-3.6-flash" });
 
     try {
         const result = await model.generateContent("Test");

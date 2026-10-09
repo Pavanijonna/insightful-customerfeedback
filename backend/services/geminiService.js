@@ -19,7 +19,7 @@ function cleanAndParseJSON(text) {
 ========================= */
 export async function analyzeFeedback(text) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
     generationConfig: { responseMimeType: "application/json" }
   });
 
@@ -56,7 +56,7 @@ export async function embedText(text) {
 ========================= */
 export async function analyzeCompetitorFeedback(reviewsText) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
     generationConfig: { responseMimeType: "application/json" }
   });
 
@@ -82,7 +82,7 @@ ${reviewsText}
 ========================= */
 export async function detectEmergingThemes(recentFeedbacks) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
     generationConfig: { responseMimeType: "application/json" }
   });
 
@@ -109,7 +109,7 @@ ${recentFeedbacks.join("\n")}
 ========================= */
 export async function generateActionItemFromFeedback(feedbackText) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
     generationConfig: { responseMimeType: "application/json" }
   });
 

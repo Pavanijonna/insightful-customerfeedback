@@ -48,7 +48,7 @@ const retryOperation = async (operation, maxRetries = 5, baseDelay = 5000) => {
 exports.generateText = async (prompt) => {
     try {
         const result = await retryOperation(() => genAI.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
             contents: [{ parts: [{ text: prompt }] }]
         }));
 
@@ -122,7 +122,7 @@ exports.generateJSON = async (prompt) => {
     let rawText = "";
     try {
         const result = await retryOperation(() => genAI.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: process.env.GEMINI_MODEL || "gemini-3.6-flash",
             contents: [{
                 parts: [{
                     text: prompt + `
