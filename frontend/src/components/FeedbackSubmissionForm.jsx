@@ -123,7 +123,7 @@ const FeedbackSubmissionForm = ({ onSuccess }) => {
                             type="text"
                             value={productName}
                             onChange={(e) => setProductName(e.target.value)}
-                            placeholder="Manually enter product name (e.g. Mouni) or leave blank for AI to infer"
+                            placeholder="manually enter name (eg: pavani) or leave blank for AI infer"
                             className="w-full px-8 py-5 bg-white/60 backdrop-blur-3xl border-2 border-sky-100 rounded-full focus:outline-none focus:border-sky-400/50 focus:ring-[8px] focus:ring-sky-500/5 transition-all text-slate-900 font-bold placeholder:text-slate-400 shadow-lg group-hover/input:bg-white"
                         />
                     </div>

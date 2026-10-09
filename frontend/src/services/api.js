@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'https://insightful-customerfeedback.onrender.com').replace(/\/$/, "");
+const getCleanBaseUrl = () => {
+    let url = import.meta.env.VITE_API_URL || 'https://insightful-customerfeedback.onrender.com';
+    if (typeof url === 'string') {
+        url = url.replace(/https\/\//g, 'https://');
+        const match = url.match(/(https?:\/\/[^\/]+)/i);
+        if (match) {
+            url = match[1];
+        }
+    }
+    return url.replace(/\/$/, "");
+};
+
+const API_BASE_URL = getCleanBaseUrl();
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
