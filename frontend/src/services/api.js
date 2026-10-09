@@ -1,14 +1,25 @@
 import axios from 'axios';
 
-const DEFAULT_RENDER_URL = "https://insightful-customerfeedback.onrender.com";
-const envUrl = (import.meta.env.VITE_API_URL || DEFAULT_RENDER_URL).trim();
-// Ensure it starts with https:// and has no duplicate protocols or trailing slashes
-const cleanUrl = envUrl.startsWith('http') ? envUrl.replace(/^(https?:\/\/)+/, 'https://') : `https://${envUrl}`;
-export const API_BASE_URL = cleanUrl.replace(/\/+$/, "").replace(/https\/?$/, "");
+const RAW_URL = import.meta.env.VITE_API_URL || "https://insightful-customerfeedback.onrender.com";
+
+// Extract ONLY the valid first domain origin and discard any repeated protocols or concatenations
+let cleanOrigin = "https://insightful-customerfeedback.onrender.com";
+try {
+  const match = String(RAW_URL).match(/https?:\/\/[a-zA-Z0-9.-]+\.onrender\.com/);
+  if (match) {
+    cleanOrigin = match[0];
+  }
+} catch (e) {
+  cleanOrigin = "https://insightful-customerfeedback.onrender.com";
+}
+
+export const API_BASE_URL = cleanOrigin;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  headers: { 'Content-Type': 'application/json' }
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Attach helper methods with clean relative endpoints
